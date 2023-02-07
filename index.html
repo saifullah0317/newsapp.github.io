@@ -11,7 +11,7 @@
       crossorigin="anonymous"
     />
   </head>
-  <body>
+  <body style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpj75WwmN1Q6TcrlhE-aiHTTEsGREMpiSJwQ&usqp=CAU');background-repeat: no-repeat;background-size: cover;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">NewsSpotter</a>
@@ -29,7 +29,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/?q=all&pageno=1">Home</a>
+              <a
+                class="nav-link active"
+                aria-current="page"
+                href="/?q=all&pageno=1"
+                >Home</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/?q=weather&pageno=1">Weather</a>
@@ -70,18 +75,31 @@
         </div>
       </div>
     </nav>
-    <div class="container mx-auto">
-        <h1 class="text-center my-2"><span id="queryText"></span> - NewsSpotter News (<span id="queryResults"></span> results)</h1>
-        <div id="content" class="row">
+    <div class="mx-auto" style="width:100%">
+      <h1 class="text-center my-2" style="color:antiquewhite">
+        <span id="queryText"></span> - NewsSpotter News (<span
+          id="queryResults"
+        ></span>
+        results)
+      </h1>
+      <div id="content" class="row mx-auto">
         <div class="d-flex justify-content-center">
-            <img width="23" src="https://samherbert.net/svg-loaders/svg-loaders/oval.svg" style="filter: invert(1)">
+          <img
+            width="23"
+            src="https://samherbert.net/svg-loaders/svg-loaders/oval.svg"
+            style="filter: invert(1)"
+          />
         </div>
-    </div>
+      </div>
       <div class="prevNext my-4 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
           <ul class="pagination">
-            <li class="page-item"><a id="pre" class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a id="next" class="page-link" href="#">Next</a></li>
+            <li class="page-item">
+              <a id="pre" class="page-link" href="#">Previous</a>
+            </li>
+            <li class="page-item">
+              <a id="next" class="page-link" href="#">Next</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -92,22 +110,28 @@
       crossorigin="anonymous"
     ></script>
     <script>
-        let articlesPerPage, totalPages;
-        let query=window.location.search.split("?")[1].split("&")[0].split("=")[1];
-        let pageno=parseInt(window.location.search.split("?")[1].split("&")[1].split("=")[1]);
-        const fetchNews=async (query1,pageno1)=>{
-            let a=await fetch(`/api?q=${query1}&apiKey=5d35327cbb6b4488a0fbb2f9f80665b1&pageSize=10&page=${pageno}`);
-            let r=await a.json();
-            console.log(r);
-            queryText.innerHTML=query.replace("+"," ");
-            queryResults.innerHTML=r.totalResults;
-            totalPages=Math.ceil(r.totalResults/articlesPerPage);
-            pre.href=`/?q=${query}&pageno=${pageno-1}`;
-            next.href=`/?q=${query}&pageno=${pageno+1}`;
-            let str="";
-            for(let item of r.articles){
-                str+=
-                `<div class="card m-2" style="width: 18rem">
+      let articlesPerPage, totalPages;
+      let query = window.location.search
+        .split("?")[1]
+        .split("&")[0]
+        .split("=")[1];
+      let pageno = parseInt(
+        window.location.search.split("?")[1].split("&")[1].split("=")[1]
+      );
+      const fetchNews = async (query1, pageno1) => {
+        let a = await fetch(
+          `/api?q=${query1}&apiKey=5d35327cbb6b4488a0fbb2f9f80665b1&pageSize=10&page=${pageno1}`
+        );
+        let r = await a.json();
+        console.log(r);
+        queryText.innerHTML = query.replace("+", " ");
+        queryResults.innerHTML = r.totalResults;
+        totalPages = Math.ceil(r.totalResults / articlesPerPage);
+        pre.href = `/?q=${query}&pageno=${pageno - 1}`;
+        next.href = `/?q=${query}&pageno=${pageno + 1}`;
+        let str = "";
+        for (let item of r.articles) {
+          str += `<div class="card m-2" style="width: 18rem">
                     <img src=${item.urlToImage} class="card-img-top" alt="..." />
                     <div class="card-body">
                     <h5 class="card-title">${item.title}</h5>
@@ -116,11 +140,11 @@
                     </p>
                     <a target="_blank" href=${item.url} class="btn btn-primary">Read More...</a>
                     </div>
-                </div>`
-            }
-            content.innerHTML=str;
+                </div>`;
         }
-        fetchNews(query,pageno);
+        content.innerHTML = str;
+      };
+      fetchNews(query, pageno);
     </script>
   </body>
 </html>
