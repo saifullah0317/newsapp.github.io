@@ -87,7 +87,7 @@
           <img
             width="23"
             src="https://samherbert.net/svg-loaders/svg-loaders/oval.svg"
-            style="filter: invert(1)"
+            style="filter: invert(1); color: antiquewhite;"
           />
         </div>
       </div>
@@ -118,6 +118,10 @@
       let pageno = parseInt(
         window.location.search.split("?")[1].split("&")[1].split("=")[1]
       );
+      const dateToString=(date)=>{
+        let date1=new Date(date);
+        return date1.toDateString();
+      }
       const fetchNews = async (query1, pageno1) => {
         let a = await fetch(
           `/api?q=${query1}&apiKey=5d35327cbb6b4488a0fbb2f9f80665b1&pageSize=10&page=${pageno1}`
@@ -136,7 +140,19 @@
                     <div class="card-body">
                     <h5 class="card-title">${item.title}</h5>
                     <p class="card-text">
+                      <span style="font-weight:bold;">Published at:</span>
+                        ${dateToString(item.publishedAt)}
+                    </p>
+                    <p class="card-text">
                         ${item.description}
+                    </p>
+                    <p class="card-text">
+                      <span style="font-weight:bold;">From:</span>
+                        ${item.source.name}
+                    </p>
+                    <p class="card-text">
+                      <span style="font-weight:bold;">By:</span>
+                        ${item.author}
                     </p>
                     <a target="_blank" href=${item.url} class="btn btn-primary">Read More...</a>
                     </div>
